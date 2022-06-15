@@ -1,5 +1,5 @@
 import plotly.graph_objects as go
-import process_data
+from src import process_data
 
 data = process_data.getData()
 bins, widths = process_data.calculateBins(data['Figure'][0]['BinEdges'])
