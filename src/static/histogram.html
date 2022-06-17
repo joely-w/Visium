@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="stylesheets/main.css" rel="stylesheet"/>
+    <!-- Plotly -->
+    <script src='https://cdn.plot.ly/plotly-2.12.1.min.js'></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <title>Histogram</title>
+    <!-- MathJax Renderer -->
+    <script src='//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML'></script>
+
+    <script src="scripts/graph.js"></script>
+    <!-- JsYaml Library-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"
+            integrity="sha512-CSBhVREyzHAjAFfBlIBakjoRUKp5h7VSweP0InR/pAJyptH7peuhCsqAI/snV+TwZmXZqoUklpXp6R6wMnYf5Q=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+</head>
+
+<body>
+<div class="upload">
+    <h1>Upload file</h1>
+    <label>
+        <input type="file" id="file-selector" accept=".yaml"/>
+    </label>
+    <a target="_blank" href="examples/SR_postfit.yaml">Click here</a> to see an example YAML file.
+    <button onclick="submit()">Plot graph</button>
+</div>
+<div id="hist">
+
+</div>
+<button id="reupload" onclick="location.reload()">Re-upload</button>
+</body>
+</html>

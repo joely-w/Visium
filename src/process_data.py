@@ -1,3 +1,5 @@
+from typing import Optional
+
 import yaml
 import plotly.graph_objects as go
 import json
@@ -33,20 +35,33 @@ def calculateBins(edges: list[float]):
     return bins, widths
 
 
-def calculateBar(name: str, frame: list[float], bins: list[float], widths: list[float]) -> go.Bar:
+def calculateBar(name: str, frame: list[float], bins: list[float], widths: list[float],
+                 errors: Optional[list[list[float]]] = None) -> go.Bar:
     """
     Create Plotly Bar object from edge list and dataset.
     
     :param str name: Name of sample, will show on legend.
     :param list[float] frame: Height of each interval.
-    :param list[float] edges: Edges of each interval.
+    :param list[float] bins: Precalculated intervals.
+    :param list[float] widths: Widths of each interval.
+    :param Optional[list[float]] errors: Error of each point, no errors plotted if None.
+
     
     :return go.Bar: Plotly Bar object. 
     """
     marker = dict()
     if name in colours:
         marker = dict(color=colours[name])
+    if errors:
+        return go.Bar(
+            name=name, x=bins, y=frame, width=widths,
+            marker=marker, error_y=dict(
+                type='data',
+                symmetric=False,
+                array=errors[0],
+                arrayminus=errors[1],
+                color='blue', thickness=1.5))
+
     return go.Bar(
-        name=name,
-        x=bins,
-        y=frame, width=widths, marker=marker)
+        name=name, x=bins, y=frame, width=widths,
+        marker=marker)
