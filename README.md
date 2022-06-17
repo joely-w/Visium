@@ -2,9 +2,10 @@
 Data visualisation for Pythium. This repository runs on a Flask backend with JS frontend.
 Ideally, the JS frontend does not need to be changed.
 ## Get started 🍴
+First navigate to `./src`
 ### Development environment 🔨
 
-First install packages `pip install -r ./src/requirements.txt`
+Install packages `pip install -r ./src/requirements.txt`
 
 Then set flask app environment variables:
 
