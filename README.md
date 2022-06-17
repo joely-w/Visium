@@ -1,12 +1,30 @@
-# VisiumServer
-Python server side for Visium. 
-## Get started
-1. Run setup command: `pip install -r ./src/requirements.txt`
+# Visium 🎉
+Data visualisation for Pythium. This repository runs on a Flask backend with JS frontend.
+Ideally, the JS frontend does not need to be changed.
+## Get started 🍴
+### Development environment 🔨
 
-This code currently runs on `src/data/postfit_SR.yaml` as a sample, once I've hooked up the routes to the 
-right functions it will be a case of posting  a yaml file to an endpoint. 
-To generate the current data run `src/graphs/histogram.py`. 
+First install packages `pip install -r ./src/requirements.txt`
 
-## Docs 
-I've started writing docs for deployment, which can be found in `docs`.
+Then set flask app environment variables:
+
+**Windows**
+
+`set FLASK_APP=app & FLASK_ENV=development & FLASK_DEBUG=TRUE`
+
+--------------
+**Unix, Linux, macOS**
+
+`export FLASK_APP=app FLASK_ENV=development FLASK_DEBUG=TRUE`
+
+--------------
+You can then run `flask run`, which by default serves content to http:/localhost:5000.
+
+### Production environment 🚀
+Documentation not complete, but to get started go to `/docs/SETUP.md`.
+
+## Docs 😎
+Everything static can be found in `src/static`.
+
+I've started writing docs for deployment wrt CERN, which can be found in `docs`.
  

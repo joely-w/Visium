@@ -1,5 +1,5 @@
 import plotly.graph_objects as go
-from src import process_data
+import process_data
 
 
 def createGraph(data: dict):

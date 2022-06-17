@@ -1,8 +1,7 @@
 from typing import Optional
-
-import yaml
 import plotly.graph_objects as go
 import json
+# @TODO get filepath working through Flask CLI.
 
 try:
     with open('../data/colours.json') as file:
@@ -12,19 +11,13 @@ except FileNotFoundError:
     colours = {}
 
 
-def getData():
-    """
-    Parse YAML data, works one directory deep only.
-    
-    @TODO make file paths work relatively.
-    
-    :return dict: YAML data as dictionary.
-    """
-    with open('../data/SR_postfit.yaml', 'r') as stream:
-        return yaml.safe_load(stream)
-
-
 def calculateBins(edges: list[float]):
+    """
+    Calculate bin midpoints and widths given edges.
+    This calculates a Plotly-friendly array of bins given a list of edges.
+    :param list[float] edges: List of edges to calculate bins from.
+    :return list[list[float]]: List of bins, list of widths of bins.
+    """
     widths = []
     bins = []
     # calculate widths of bins and bin midpoints
@@ -39,15 +32,12 @@ def calculateBar(name: str, frame: list[float], bins: list[float], widths: list[
                  errors: Optional[list[list[float]]] = None) -> go.Bar:
     """
     Create Plotly Bar object from edge list and dataset.
-    
     :param str name: Name of sample, will show on legend.
     :param list[float] frame: Height of each interval.
     :param list[float] bins: Precalculated intervals.
     :param list[float] widths: Widths of each interval.
     :param Optional[list[float]] errors: Error of each point, no errors plotted if None.
-
-    
-    :return go.Bar: Plotly Bar object. 
+    :return go.Bar: Plotly Bar object.
     """
     marker = dict()
     if name in colours:

@@ -1,14 +1,14 @@
 import logging
 import sys
-from src.graphs import histogram
+from graphs import histogram
 from flask import Flask, request, jsonify
 
-app = Flask(__name__, static_url_path='', static_folder='./static')
+app = Flask(__name__, static_url_path='/', static_folder='./static')
 
 
 @app.route('/')
-def hello_world():
-    return 'Hello World!'
+def root():
+    return app.send_static_file('index.html')
 
 
 @app.route('/figure', methods=['POST'])
