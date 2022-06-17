@@ -1,10 +1,13 @@
 from typing import Optional
 import plotly.graph_objects as go
 import json
+import os
+script_dir = os.path.dirname(__file__)
+
 # @TODO get filepath working through Flask CLI.
 
 try:
-    with open('../data/colours.json') as file:
+    with open( os.path.join(script_dir, './data/colours.json')) as file:
         colours = json.loads(file.read())
 except FileNotFoundError:
     # In case colours.json is deleted 
