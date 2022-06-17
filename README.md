@@ -11,7 +11,7 @@ Then set flask app environment variables:
 
 **Windows**
 
-`set FLASK_APP=app & FLASK_ENV=development & FLASK_DEBUG=TRUE`
+`set FLASK_APP=app& set FLASK_ENV=development& set FLASK_DEBUG=TRUE`
 
 --------------
 **Unix, Linux, macOS**
