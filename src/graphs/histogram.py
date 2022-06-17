@@ -1,7 +1,6 @@
 import plotly.graph_objects as go
 import process_data
 
-
 def createGraph(data: dict):
     bins, widths = process_data.calculateBins(data['Figure'][0]['BinEdges'])
     bars = []

@@ -12,6 +12,18 @@ except FileNotFoundError:
     colours = {}
 
 
+def latexName(name: str) -> str:
+    """
+    Converts string to string that will be rendered by Latex or treated as a standard string.
+    :param str name: Name to convert.
+    :return str: 
+    """
+    name_latex = name.replace('#', '\\')
+    if name_latex == name:
+        return name
+    return f"${name_latex}$"
+
+
 def calculateBins(edges: list[float]):
     """
     Calculate bin midpoints and widths given edges.
@@ -54,5 +66,5 @@ def calculateBar(name: str, frame: list[float], bins: list[float], widths: list[
                 color='blue', thickness=1.5))
 
     return go.Bar(
-        name=name, x=bins, y=frame, width=widths,
+        name=latexName(name), x=bins, y=frame, width=widths,
         marker=marker)
