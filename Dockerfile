@@ -32,12 +32,12 @@ ENV PATH /opt/conda/bin:$PATH
 
 # Install dependencies via Anaconda
 RUN mkdir -p /deploy/app
-COPY app/requirements.txt /deploy/app/requirements.txt
+COPY src/requirements.txt /deploy/app/requirements.txt
 RUN conda install -y --file /deploy/app/requirements.txt
 
 # Deploy application
 COPY gunicorn_config.py /deploy/gunicorn_config.py
-COPY app /deploy/app
+COPY src /deploy/app
 WORKDIR /deploy/app
 
 # Set Python path
