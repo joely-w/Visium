@@ -1,7 +1,8 @@
-from typing import Optional
+from typing import Optional, List
 import plotly.graph_objects as go
 import json
 import os
+from typing import List
 
 script_dir = os.path.dirname(__file__)
 
@@ -24,7 +25,7 @@ def latexName(name: str) -> str:
     return f"${name_latex}$"
 
 
-def calculateBins(edges: list[float]):
+def calculateBins(edges: List[float]):
     """
     Calculate bin midpoints and widths given edges.
     This calculates a Plotly-friendly array of bins given a list of edges.
@@ -41,8 +42,8 @@ def calculateBins(edges: list[float]):
     return bins, widths
 
 
-def calculateBar(name: str, frame: list[float], bins: list[float], widths: list[float],
-                 errors: Optional[list[list[float]]] = None) -> go.Bar:
+def calculateBar(name: str, frame: List[float], bins: List[float], widths: List[float],
+                 errors: Optional[List[List[float]]] = None) -> go.Bar:
     """
     Create Plotly Bar object from edge list and dataset.
     :param str name: Name of sample, will show on legend.

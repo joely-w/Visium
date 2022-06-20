@@ -24,4 +24,4 @@ ENV PYTHONPATH=/deploy
 
 EXPOSE 8080
 
-CMD ["gunicorn", "--config", "/deploy/gunicorn_config.py", "main:app"]
+CMD ["gunicorn","--workers 2", "--bin 0.0.0.0:8080","app:app"]
