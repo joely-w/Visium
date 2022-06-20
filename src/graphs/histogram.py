@@ -1,7 +1,13 @@
 import plotly.graph_objects as go
 import process_data
 
+
 def createGraph(data: dict):
+    """
+    Generate Plotly figure schema to render histogram.
+    :param data: YAML data.
+    :return dict: Figure schema as dictionary.
+    """
     bins, widths = process_data.calculateBins(data['Figure'][0]['BinEdges'])
     bars = []
 
