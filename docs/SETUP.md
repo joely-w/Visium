@@ -7,7 +7,7 @@
 **2. Building a Git Repository**
 
 1. Select "Add" from the sidebar
-2. Select "Import from Git" in the following dashboard. We are using the sample Python Flask git repository: `https://github.com/devfile-samples/devfile-sample-python-basic.git`. 
+2. Select "Import from Git" in the following dashboard. Use this repository as the source, it contains all the Dockerfiles to deploy by itself. 
 3. Name your application and click create. 
 4. You will be shown a topological view of your projects. You will need to wait for your project to finish building. 
 
