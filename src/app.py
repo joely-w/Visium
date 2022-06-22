@@ -1,7 +1,5 @@
-import logging
-import sys
-from graphs import histogram
-from flask import Flask, request, jsonify
+from chart import Chart
+from flask import Flask, request
 
 app = Flask(__name__, static_url_path='/', static_folder='./static')
 
@@ -13,7 +11,7 @@ def root():
 
 @app.route('/figure', methods=['POST'])
 def createFigure():
-    return histogram.createGraph(request.json)
+    return Chart(request.json).generate()
 
 
 if __name__ == '__main__':
