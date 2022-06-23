@@ -14,15 +14,15 @@ body {
 }
 
 #hist {
-  min-height: 1024px;
+  height: 800px;
+  width: 1280px;
 }
 
 #reupload {
   display: none;
   position: absolute;
   top: 0;
-  left: 0;
+  right: 0;
   margin: 15px;
 }
 
-/*# sourceMappingURL=main.css.map */

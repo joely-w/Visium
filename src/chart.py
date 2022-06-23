@@ -18,7 +18,7 @@ class Chart:
         self.fig = make_subplots(rows=2, cols=1, shared_xaxes=True,
                                  x_title=data['Figure'][0]['XaxisLabel'],
                                  vertical_spacing=0.001, row_heights=[0.7, 0.3])
-        self.fig.update_layout(barmode='stack')
+        self.fig.update_layout(barmode='stack', legend=dict(font=dict(size=20)))
 
         # Load colours
         try:
@@ -59,7 +59,13 @@ class Chart:
         :return:
         """
         marker = dict(size=12, color='black')
-        maxi, mini, predicted = predRatio(self.data['Total'][0]['Yield'], self.data['Data'][0]['Yield'])
+        maxi, mini, error, predicted = predRatio(self.data['Total'][0]['Yield'], self.data['Data'][0]['Yield'])
+        self.fig.add_trace(
+            go.Scatter(x=[0, 1, 1, 0], y=[1 + error, 1 + error, 1 - error, 1 - error], fill='toself',
+                       fillcolor='rgba(102, 102, 255, 0)',
+                       line=dict(color='rgba(102, 102, 255, 0)'),
+                       hoverinfo="skip",
+                       name="Uncertainty", fillpattern=dict(shape="/", fgcolor="rgba(102, 102, 255, 1)")), row=2, col=1)
         self.fig.add_trace(go.Scatter(name='ratio', x=self.bins, y=predicted, showlegend=False, mode='markers',
                                       marker=marker),
                            row=2, col=1)
@@ -85,7 +91,7 @@ class Chart:
             marker = dict(color=self.colours[name])
         if errors:
             return go.Bar(
-                name=name, x=bins, y=frame, width=widths,
+                name=latexName(name), x=bins, y=frame, width=widths,
                 marker=marker, error_y=dict(symmetric=False,
                                             array=errors[0],
                                             arrayminus=errors[1],

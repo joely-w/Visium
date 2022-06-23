@@ -1,3 +1,4 @@
+import math
 from typing import List, Tuple
 
 
@@ -9,9 +10,6 @@ def latexName(name: str) -> str:
     :return str: String that can be parsed by MathJax.
     """
     name_latex = name.replace('#', '\\')
-    # If there is no LaTeX command, don't parse as LaTeX
-    if name_latex == name:
-        return name
     return f"${name_latex}$"
 
 
@@ -27,16 +25,18 @@ def toFloat(number: str) -> float:
         return 0
 
 
-def predRatio(predicted, data) -> Tuple[float, float, List[float]]:
+def predRatio(predicted, data) -> Tuple[float, float,float, List[float]]:
     """
     Calculates config/predicted ratio. Ratio is zero if either entry is 0.
     :param data: True data.
     :param predicted: Predicted data.
-    :return Tuple[float, float, List[float]]: Maximum, minimum and config.
+    :return Tuple[float, float, float, List[float]]: Maximum, minimum, upper error (symmetric) and data.
     """
     res = []
     maximum, minimum = 1.25, 0.5
-    for i in range(len(predicted)):
+    n = len(predicted)
+    error = 0.5 * 1 / (math.sqrt(n))
+    for i in range(n):
         numerator = toFloat(data[i])
         denominator = toFloat(predicted[i])
         if numerator and denominator:
@@ -48,7 +48,7 @@ def predRatio(predicted, data) -> Tuple[float, float, List[float]]:
             res.append(ratio)
         else:
             res.append(None)
-    return maximum, minimum, res
+    return maximum, minimum, error, res
 
 
 def calculateBins(edges: List[float]) -> Tuple[list, list]:
