@@ -23,6 +23,12 @@ function loadAll(content) {
             $("#reupload").show()
             $(".upload").hide()
             Plotly.newPlot($("#hist")[0], response)
+        },
+        error: (message) => {
+            $("#reupload").show()
+            $(".upload").hide()
+
+            $("#hist").html(message.responseText)
         }
     })
 }

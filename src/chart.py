@@ -61,7 +61,7 @@ class Chart:
         :return:
         """
         marker = dict(size=12, color='black')
-        if 'Data' in self.data:
+        if 'Data' not in self.data:
             maxi, mini, error, predicted = predRatio(self.data['Total'][0]['Yield'], self.data['Data'][0]['Yield'])
             self.fig.add_trace(
                 go.Scatter(x=[0, 1, 1, 0], y=[1 + error, 1 + error, 1 - error, 1 - error], fill='toself',
