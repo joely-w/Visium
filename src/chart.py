@@ -49,6 +49,8 @@ class Chart:
         Create scatter graph elements in chart.
         :return:
         """
+        if 'Data' not in self.data:
+            return
         self.fig.add_trace(go.Scatter(x=self.bins, y=self.data['Data'][0]['Yield'],
                                       name='Data', mode='markers',
                                       marker=dict(size=12, color='black')), row=1, col=1)
@@ -59,20 +61,23 @@ class Chart:
         :return:
         """
         marker = dict(size=12, color='black')
-        maxi, mini, error, predicted = predRatio(self.data['Total'][0]['Yield'], self.data['Data'][0]['Yield'])
-        self.fig.add_trace(
-            go.Scatter(x=[0, 1, 1, 0], y=[1 + error, 1 + error, 1 - error, 1 - error], fill='toself',
-                       fillcolor='rgba(102, 102, 255, 0)',
-                       line=dict(color='rgba(102, 102, 255, 0)'),
-                       hoverinfo="skip",
-                       name="Uncertainty", fillpattern=dict(shape="/", fgcolor="rgba(102, 102, 255, 1)")), row=2, col=1)
-        self.fig.add_trace(go.Scatter(name='ratio', x=self.bins, y=predicted, showlegend=False, mode='markers',
-                                      marker=marker),
-                           row=2, col=1)
+        if 'Data' in self.data:
+            maxi, mini, error, predicted = predRatio(self.data['Total'][0]['Yield'], self.data['Data'][0]['Yield'])
+            self.fig.add_trace(
+                go.Scatter(x=[0, 1, 1, 0], y=[1 + error, 1 + error, 1 - error, 1 - error], fill='toself',
+                           fillcolor='rgba(102, 102, 255, 0)',
+                           line=dict(color='rgba(102, 102, 255, 0)'),
+                           hoverinfo="skip",
+                           name="Uncertainty", fillpattern=dict(shape="/", fgcolor="rgba(102, 102, 255, 1)")), row=2,
+                col=1)
+            self.fig.add_trace(go.Scatter(name='ratio', x=self.bins, y=predicted, showlegend=False, mode='markers',
+                                          marker=marker),
+                               row=2, col=1)
+            self.fig.update_yaxes(title_text="Data/Pred", row=2, col=1, range=[mini, maxi])
+
         self.fig.add_trace(
             go.Scatter(x=[0, 1], y=[1, 1], line=dict(dash='dot', color='black', shape='linear'), showlegend=False,
                        mode='lines'), row=2, col=1)
-        self.fig.update_yaxes(title_text="Data/Pred", row=2, col=1, range=[mini, maxi])
 
     def createBar(self, name: str, frame: List[float], bins: List[float], widths: List[float],
                   errors: Optional[Tuple[List[float], List[float]]] = None) -> go.Bar:
