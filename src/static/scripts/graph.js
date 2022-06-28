@@ -13,7 +13,6 @@ function submit() {
  * Load all graphs onto chart
  */
 function loadAll(content) {
-    console.log(content)
     $.ajax({
         url: '/figure',
         type: "POST",

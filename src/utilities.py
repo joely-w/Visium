@@ -1,5 +1,42 @@
+"""
+TODO refactor this out into separate more relevant files.
+"""
 import math
-from typing import List, Tuple
+import json
+from typing import List, Tuple, Deque, Optional
+
+
+# Tree structure to convert the file list to
+class Node:
+    def __init__(self, val, children: Optional[List]):
+        self.id, self.text = val, val
+        if children:
+            self.children = children
+        else:
+            self.children = []
+
+    def toJson(self):
+        return json.dumps(self, default=lambda o: o.__dict__)
+
+
+def dfs(root: Node, path: Deque[str]):
+    """
+    Populate tree with all elements (folders and files) in path.
+    This populates in place so no return needed.
+    :param Node root: Root node
+    :param path: Double ended queue which stores the current path to traverse
+    :return None:
+    """
+    if len(path) == 0:
+        return None
+    # Get child node
+    node = path.popleft()
+    for el in root.children:
+        if el.id == node:
+            return dfs(el, path)
+    el = Node(node, [])
+    root.children.append(el)
+    return dfs(el, path)
 
 
 def latexName(name: str) -> str:
@@ -25,7 +62,7 @@ def toFloat(number: str) -> float:
         return 0
 
 
-def predRatio(predicted, data) -> Tuple[float, float,float, List[float]]:
+def predRatio(predicted, data) -> Tuple[float, float, float, List[float]]:
     """
     Calculates config/predicted ratio. Ratio is zero if either entry is 0.
     :param data: True data.

@@ -22,7 +22,7 @@ class Chart:
 
         # Load colours
         try:
-            with open(os.path.join(script_dir, 'config/colours.json')) as file:
+            with open(os.path.join(script_dir, 'colours.json')) as file:
                 self.colours = json.loads(file.read())
         except FileNotFoundError:
             self.colours = {}

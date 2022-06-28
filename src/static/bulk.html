@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Visium - Bulk Upload</title>
+    <link href="stylesheets/main.css" rel="stylesheet"/>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <!-- jsTree -->
+    <script src="https://cdn.jsdelivr.net/npm/jstree@3.3.12/dist/jstree.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css"/>
+
+    <!-- Driver code -->
+    <script src="scripts/files.js"></script>
+
+</head>
+<body>
+<div class="upload">
+    <h1>Upload new File</h1>
+    <form method="post" id="uploader" enctype="multipart/form-data">
+        <label>Project name
+            <input type="text" name="name" id="name">
+        </label>
+        <label>
+            Project (zipped) files
+            <input type="file" id="file" name="file">
+        </label>
+        <button>Submit</button>
+    </form>
+</div>
+<div id="tree">
+
+</div>
+
+</body>
+
+</html>
