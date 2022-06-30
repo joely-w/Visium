@@ -15,11 +15,7 @@ function uploadFile() {
         contentType: false,
         processData: false,
         success: function (response) {
-            response = JSON.parse(response)
-            $("#tree").fancytree({
-                extensions: ["edit", "filter"],
-                source: response.children,
-            });
+            window.location.href = '/browse.html'
         }
     });
 }

@@ -22,7 +22,7 @@ def root():
 
 @app.route('/figure', methods=['POST'])
 def create_figure():
-    return Chart(request.json).generate()
+    return Chart(app.config['UPLOAD_FOLDER'], request.json).generate()
 
 
 @app.route('/upload', methods=['POST'])

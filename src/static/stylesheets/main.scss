@@ -14,11 +14,12 @@ body {
     display: block;
   }
 }
-
-
+#graph{
+  display:none;
+}
 #hist {
-  height: 800px;
-  width: 1280px;
+  max-height: 800px;
+  max-width: 1280px;
 }
 
 #reupload {

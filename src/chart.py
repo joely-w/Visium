@@ -1,6 +1,7 @@
 import json
 import os
 from typing import List, Optional, Tuple
+import yaml
 
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
@@ -11,12 +12,14 @@ script_dir = os.path.dirname(__file__)
 
 
 class Chart:
-    def __init__(self, data):
+    def __init__(self, upload_dir: str, filepath: str):
         # Create bar chart
-        self.data = data
-        self.bins, self.widths = calculateBins(data['Figure'][0]['BinEdges'])
+        self.data = {}
+        if not self.loadData(os.path.join(upload_dir, filepath)):
+            return
+        self.bins, self.widths = calculateBins(self.data['Figure'][0]['BinEdges'])
         self.fig = make_subplots(rows=2, cols=1, shared_xaxes=True,
-                                 x_title=data['Figure'][0]['XaxisLabel'],
+                                 x_title=self.data['Figure'][0]['XaxisLabel'],
                                  vertical_spacing=0.001, row_heights=[0.7, 0.3])
         self.fig.update_layout(barmode='stack', legend=dict(font=dict(size=20)))
 
@@ -26,6 +29,14 @@ class Chart:
                 self.colours = json.loads(file.read())
         except FileNotFoundError:
             self.colours = {}
+
+    def loadData(self, filepath):
+        with open(filepath, "r") as stream:
+            try:
+                self.data = yaml.safe_load(stream)
+                return True
+            except yaml.YAMLError or FileNotFoundError:
+                return False
 
     def createBarChart(self) -> None:
         """

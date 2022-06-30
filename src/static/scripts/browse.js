@@ -18,10 +18,18 @@ $(document).ready(() => {
                 extensions: ["edit", "filter"],
                 source: response.children,
                 click: (event, data) => {
-                    const node = data.node
-                    console.log(node.data['rootpath'])
+                    const path = data.node.data['rootpath']
+                    const filename = path[path.length - 1]
+                    if (filename.substring(filename.length - 5) === '.yaml') {
+                        $("#tree").hide()
+                        loadAll($("#files").val() + '/' + path.join('/'))
+                    }
                 }
             });
         })
+    });
+    $("#back").click(() => {
+        $("#graph").hide()
+        $("#tree").show()
     })
 })

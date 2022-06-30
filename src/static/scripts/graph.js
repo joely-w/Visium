@@ -12,21 +12,17 @@ function submit() {
 /**
  * Load all graphs onto chart
  */
-function loadAll(content) {
+function loadAll(filepath) {
     $.ajax({
         url: '/figure',
         type: "POST",
-        data: JSON.stringify(content),
+        data: JSON.stringify(filepath),
         contentType: 'application/json;',
         success: (response) => {
-            $("#reupload").show()
-            $(".upload").hide()
+            $("#graph").show()
             Plotly.newPlot($("#hist")[0], response)
         },
         error: (message) => {
-            $("#reupload").show()
-            $(".upload").hide()
-
             $("#hist").html(message.responseText)
         }
     })
