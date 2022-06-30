@@ -21,13 +21,23 @@ def root():
 
 
 @app.route('/figure', methods=['POST'])
-def createFigure():
+def create_figure():
     return Chart(request.json).generate()
 
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
     return files.upload(request.files['file'])
+
+
+@app.route('/api/browse', methods=['GET'])
+def get_projects():
+    return dict(result=files.list())
+
+
+@app.route('/api/directory/<name>/', methods=['GET'])
+def view_project(name):
+    return files.access(name)
 
 
 if __name__ == '__main__':

@@ -1,9 +1,10 @@
 import zipfile
 import os
 from collections import deque
+from typing import List
+
 from werkzeug.datastructures import FileStorage
 from werkzeug.utils import secure_filename
-import json
 
 from src.utilities import Node, dfs
 
@@ -19,6 +20,10 @@ class Files:
     def unzip(self, file):
         pass
 
+    def list(self) -> List[str]:
+        print(os.listdir(self.path))
+        return [name for name in os.listdir(self.path) if os.path.isdir(os.path.join(self.path, name))]
+
     def upload(self, file: FileStorage) -> dict:
         """
         Uploads file to objects path.
@@ -27,20 +32,28 @@ class Files:
         :param FileStorage file: Target file to upload.
         :return dict: Converted file tree structure
         """
-        filepath = os.path.join(self.path, secure_filename(file.filename))
+        filepath = os.path.abspath(os.path.join(self.path, secure_filename(file.filename)))
         try:
             file.save(filepath)
+            with zipfile.ZipFile(filepath, "r") as zf:
+                zf.extractall(filepath.split('.')[0])
         except:
             return {}
 
-        return self.traverse(filepath).toJson()
+        return dict(name=secure_filename(file.filename).split(".")[0])
+        # self.traverse(filepath).toJson()
+
+    def access(self, folder_name):
+        filepath = os.path.join(self.path, secure_filename(folder_name + '.zip'))
+        res = self.traverse(filepath)
+        return res.toJson()
 
     def traverse(self, filepath: str) -> Node:
         """
         Convert all filepaths within zip contained in `filepath` into a tree structure for frontend.
         :return Node: Root node for tree structure.
         """
-        root = Node('root', [])
+        root = Node('root', [], [])
         with zipfile.ZipFile(filepath, 'r') as zf:
             files = zf.namelist()
             for file in files:

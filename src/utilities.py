@@ -3,26 +3,35 @@ TODO refactor this out into separate more relevant files.
 """
 import math
 import json
+import copy
 from typing import List, Tuple, Deque, Optional
 
 
 # Tree structure to convert the file list to
 class Node:
-    def __init__(self, val, children: Optional[List]):
-        self.id, self.text = val, val
+    def __init__(self, val, children: Optional[List], rootpath):
+        self.id, self.title = val, val
+        self.rootpath = copy.deepcopy(rootpath)
         if children:
+            self.folder = True
             self.children = children
         else:
+            self.folder = False
             self.children = []
 
     def toJson(self):
         return json.dumps(self, default=lambda o: o.__dict__)
 
+    def addChild(self, el) -> None:
+        self.folder = True
+        self.children.append(el)
 
-def dfs(root: Node, path: Deque[str]):
+
+def dfs(root: Node, path: Deque[str], rootpath: List[str] = []) -> None:
     """
     Populate tree with all elements (folders and files) in path.
     This populates in place so no return needed.
+    :param rootpath: Path for node from root
     :param Node root: Root node
     :param path: Double ended queue which stores the current path to traverse
     :return None:
@@ -31,12 +40,17 @@ def dfs(root: Node, path: Deque[str]):
         return None
     # Get child node
     node = path.popleft()
+    rootpath.append(node)
     for el in root.children:
         if el.id == node:
-            return dfs(el, path)
-    el = Node(node, [])
-    root.children.append(el)
-    return dfs(el, path)
+            dfs(el, path, rootpath)
+            rootpath.pop()
+            return
+    el = Node(node, [], rootpath)
+    root.addChild(el)
+    dfs(el, path, rootpath)
+    rootpath.pop()
+    return
 
 
 def latexName(name: str) -> str:

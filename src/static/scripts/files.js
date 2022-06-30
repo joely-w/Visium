@@ -9,12 +9,16 @@ function uploadFile() {
         return;
     }
     $.ajax({
-        url: '/upload', type: 'post', data: fd, contentType: false, processData: false, success: function (response) {
+        url: '/upload',
+        type: 'post',
+        data: fd,
+        contentType: false,
+        processData: false,
+        success: function (response) {
             response = JSON.parse(response)
-            $('#tree').jstree({
-                'core': {
-                    'data': [response]
-                }
+            $("#tree").fancytree({
+                extensions: ["edit", "filter"],
+                source: response.children,
             });
         }
     });
