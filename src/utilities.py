@@ -10,20 +10,20 @@ from typing import List, Tuple, Deque, Optional
 # Tree structure to convert the file list to
 class Node:
     def __init__(self, val, children: Optional[List], rootpath):
-        self.id, self.title = val, val
+        self.id, self.text = val, val
         self.rootpath = copy.deepcopy(rootpath)
         if children:
-            self.folder = True
+            self.type = 'folder'
             self.children = children
         else:
-            self.folder = False
+            self.type = 'file'
             self.children = []
 
     def toJson(self):
         return json.dumps(self, default=lambda o: o.__dict__)
 
     def addChild(self, el) -> None:
-        self.folder = True
+        self.type = 'folder'
         self.children.append(el)
 
 
