@@ -10,8 +10,8 @@ from typing import List, Tuple, Deque, Optional
 # Tree structure to convert the file list to
 class Node:
     def __init__(self, val, children: Optional[List], rootpath):
-        self.id, self.text = val, val
-        self.rootpath = copy.deepcopy(rootpath)
+
+        self.id, self.text = '/'.join(rootpath), val
         if children:
             self.type = 'folder'
             self.children = children
@@ -42,7 +42,7 @@ def dfs(root: Node, path: Deque[str], rootpath: List[str] = []) -> None:
     node = path.popleft()
     rootpath.append(node)
     for el in root.children:
-        if el.id == node:
+        if el.text == node:
             dfs(el, path, rootpath)
             rootpath.pop()
             return

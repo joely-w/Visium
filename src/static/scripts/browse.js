@@ -7,6 +7,18 @@ const cmp = function (a, b) {
     }
 };
 $(document).ready(() => {
+    $('#tree').on("select_node.jstree", function (e, data) {
+        const path = data.node.id;
+        if (path.substring(path.length - 5) === '.yaml') {
+            $("#tree").hide()
+            loadAll($("#files").val() + '/' + path)
+        }
+    });
+    $("#search_btn").click(function () {
+        const search = $("#search").val();
+        if (!search.trim()) return;
+        $("#tree").jstree("search", search.trim());
+    })
     $.get("/api/browse", response => {
         for (let i = 0; i < response.result.length; i++) {
             $("#files").append(`<option>${response.result[i]}</option>`)
@@ -15,12 +27,17 @@ $(document).ready(() => {
     $("#files").change(() => {
         $.get(`/api/directory/${$("#files").val()}`, response => {
             response = JSON.parse(response)
+            console.log(response)
             $('#tree').jstree({
-                plugins: ["types", "sort"],
+                plugins: ["types", "sort", "search"],
                 core: {
                     data: response.children
                 },
-                'sort': function (a, b) {
+                search: {
+                    show_only_matches: true,
+                    case_insensitive: true,
+                },
+                sort: function (a, b) {
                     a1 = this.get_node(a);
                     b1 = this.get_node(b);
                     if (a1.icon === b1.icon) {

@@ -1,14 +1,3 @@
-const reader = new FileReader();
-reader.addEventListener('load', (event) => {
-    const data = jsyaml.load(event.target.result);
-    loadAll(data);
-})
-
-function submit() {
-    const file = $("#file-selector")[0].files[0];
-    reader.readAsText(file)
-}
-
 /**
  * Load all graphs onto chart
  */
