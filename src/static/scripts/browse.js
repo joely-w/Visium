@@ -10,7 +10,7 @@ $(document).ready(() => {
     $('#tree').on("select_node.jstree", function (e, data) {
         const path = data.node.id;
         if (path.substring(path.length - 5) === '.yaml') {
-            $("#tree").hide()
+            $("#file-tree").hide()
             loadAll($("#files").val() + '/' + path)
         }
     });
@@ -27,7 +27,8 @@ $(document).ready(() => {
     $("#files").change(() => {
         $.get(`/api/directory/${$("#files").val()}`, response => {
             response = JSON.parse(response)
-            console.log(response)
+            $("#file-tree").show();
+            $("#select").hide()
             $('#tree').jstree({
                 plugins: ["types", "sort", "search"],
                 core: {
@@ -60,6 +61,6 @@ $(document).ready(() => {
     });
     $("#back").click(() => {
         $("#graph").hide()
-        $("#tree").show()
+        $("#file-tree").show()
     })
 })

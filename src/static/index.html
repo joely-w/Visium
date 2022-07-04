@@ -8,28 +8,48 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
             integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
-    <!-- jsTree -->
-    <link href="//cdn.jsdelivr.net/npm/jquery.fancytree@2.27/dist/skin-win8/ui.fancytree.min.css" rel="stylesheet">
-    <script src="//cdn.jsdelivr.net/npm/jquery.fancytree@2.27/dist/jquery.fancytree-all-deps.min.js"></script>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
 
     <!-- Driver code -->
     <script src="scripts/files.js"></script>
 
 </head>
 <body>
-<div class="upload">
-    <h1>Upload new project</h1>
-    <form method="post" id="uploader" enctype="multipart/form-data">
-        <label>Project name
-            <input type="text" name="name" id="name">
-        </label>
-        <label>
-            Project (zipped) files
-            <input type="file" id="file" name="file">
-        </label>
-        <button>Submit</button>
-    </form>
+<div class="container">
+    <div class="row upload">
+        <div class="col-md-6 offset-md-3">
+            <h1>Upload new project</h1>
+            <form method="post" id="uploader" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label for="file" class="form-label">Choose a zipped project</label>
+                    <input class="form-control" type="file" id="file">
+                </div>
+                <div class="mb-3">
+                    <span><b>Note:</b> Project name will be set to the name of the uploaded zip file.</span>
+                    <button class="btn btn-primary">Upload</button>
+                </div>
+            </form>
+
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" id="progress" style="width: 0;" aria-valuenow="25"
+                     aria-valuemin="0"
+                     aria-valuemax="100">0%
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 </div>
+
 </body>
 
 </html>
