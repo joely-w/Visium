@@ -14,14 +14,10 @@ class Files:
         self.path = path
         pass
 
-    def delete(self):
-        pass
-
-    def unzip(self, file):
-        pass
+    def pdf(self, folder_name, filepath):
+        return os.path.join(self.path, folder_name, filepath)
 
     def list(self) -> List[str]:
-        print(os.listdir(self.path))
         return [name for name in os.listdir(self.path) if os.path.isdir(os.path.join(self.path, name))]
 
     def upload(self, file: FileStorage) -> dict:

@@ -6,12 +6,28 @@ const cmp = function (a, b) {
         return (a.data.folder > b.data.folder) ? 1 : -1;
     }
 };
+
+function loadPdf(project_name, filepath) {
+    $("#hist").html(`<embed src="/api/directory/${project_name}/pdf?filename=${filepath}" type="application/pdf" width="100%" height="100%" />`)
+    $("#graph").show()
+}
+
 $(document).ready(() => {
     $('#tree').on("select_node.jstree", function (e, data) {
         const path = data.node.id;
-        if (path.substring(path.length - 5) === '.yaml') {
-            $("#file-tree").hide()
-            loadAll($("#files").val() + '/' + path)
+        const splits = path.split('.');
+        const ext = splits[splits.length - 1];
+        const project_name = $("#files").val()
+        const full_path = project_name + '/' + path;
+        const filetree = $("#file-tree")
+        switch (ext) {
+            case "yaml":
+                filetree.hide()
+                loadAll(full_path);
+                break;
+            case "pdf":
+                filetree.hide();
+                loadPdf(project_name, path)
         }
     });
     $("#search_btn").click(function () {

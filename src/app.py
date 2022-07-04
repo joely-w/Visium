@@ -1,5 +1,5 @@
 # Config and routing
-from flask import Flask, request
+from flask import Flask, request, send_file
 from config import Config
 
 # Services
@@ -36,8 +36,14 @@ def get_projects():
 
 
 @app.route('/api/directory/<name>/', methods=['GET'])
-def view_project(name):
+def view_project(name: str):
     return files.access(name)
+
+
+@app.route('/api/directory/<name>/pdf', methods=['GET'])
+def view_pdf(name: str):
+    filepath = files.pdf(name, request.args.get('filename'))
+    return send_file(filepath)
 
 
 if __name__ == '__main__':

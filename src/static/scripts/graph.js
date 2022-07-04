@@ -8,6 +8,7 @@ function loadAll(filepath) {
         data: JSON.stringify(filepath),
         contentType: 'application/json;',
         success: (response) => {
+            $("#hist").html(null)
             Plotly.newPlot($("#hist")[0], response)
             $("#graph").show()
         },
