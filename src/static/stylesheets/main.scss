@@ -12,12 +12,15 @@ body {
     display: block;
   }
 }
-.search{
+
+.search {
   text-align: center;
-  button{
+
+  button {
     margin-top: 10px;
 
   }
+
   margin-bottom: 10px;
 }
 
@@ -30,3 +33,7 @@ body {
   max-width: 1280px;
 }
 
+
+.fa-folder {
+  color: cornflowerblue !important;
+}
