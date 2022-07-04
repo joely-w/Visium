@@ -6,7 +6,7 @@ from typing import List
 from werkzeug.datastructures import FileStorage
 from werkzeug.utils import secure_filename
 
-from src.utilities import Node, dfs
+from utilities import Node, dfs
 
 
 class Files:
