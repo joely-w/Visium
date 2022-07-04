@@ -24,4 +24,4 @@ ENV PYTHONPATH=/deploy
 
 EXPOSE 8080
 ENV UPLOAD_DIR=/mnt
-CMD gunicorn --workers 2 --bin 0.0.0.0:8080 app:app --log-level debug
+CMD gunicorn --workers 2 --bin 0.0.0.0:8080 app:app --log-level debug --timeout 600
