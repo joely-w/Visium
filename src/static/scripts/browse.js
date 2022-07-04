@@ -49,10 +49,10 @@ $(document).ready(() => {
                 },
                 types: {
                     file: {
-                        icon: "fa fa-file  text-warning"
+                        icon: "fa fa-file text-warning"
                     },
                     folder: {
-                        icon: "fa fa-folder text-warning"
+                        icon: "fa fa-folder"
                     }
                 },
             });
