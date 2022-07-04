@@ -1,6 +1,6 @@
 # Config and routing
 from flask import Flask, request
-from src.config import Config
+from config import Config
 
 # Services
 from chart import Chart
