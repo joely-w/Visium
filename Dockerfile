@@ -23,5 +23,5 @@ COPY gunicorn_config.py .
 ENV PYTHONPATH=/deploy
 
 EXPOSE 8080
-
+CMD export UPLOAD_DIR="/mnt"
 CMD gunicorn --workers 2 --debug --bin 0.0.0.0:8080 app:app
