@@ -18,8 +18,3 @@ class MatrixChart(Chart):
             x=self.headers,
             y=self.headers,
             hoverongaps=False, zmin=-100, zmax=100, text=self.matrix, texttemplate="%{text}"))
-
-        self.show()
-
-
-MatrixChart(r"D:\Visium\uploads\download\Fits\tHbb_v34_v2.txt", False)

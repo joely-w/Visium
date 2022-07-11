@@ -1,7 +1,7 @@
 # Config and routing
 from flask import Flask, request, send_file
 from config import Config
-from charts import histogram
+from charts import histogram, matrix
 # Services
 
 from uploads import Files
@@ -20,9 +20,14 @@ def root():
     return app.send_static_file('index.html')
 
 
-@app.route('/figure', methods=['POST'])
+@app.route('/api/histogram', methods=['POST'])
 def create_figure():
     return histogram.HistogramChart('../uploads/' + request.json).generate()
+
+
+@app.route('/api/correlation_matrix', methods=['POST'])
+def corr_matrix():
+    return matrix.MatrixChart('../uploads/' + request.json).generate()
 
 
 @app.route('/upload', methods=['POST'])

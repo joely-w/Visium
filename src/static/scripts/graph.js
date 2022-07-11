@@ -1,9 +1,9 @@
 /**
  * Load all graphs onto chart
  */
-function loadAll(filepath) {
+function loadAll(type, filepath) {
     $.ajax({
-        url: '/figure',
+        url: `/api/${type}`,
         type: "POST",
         data: JSON.stringify(filepath),
         contentType: 'application/json;',

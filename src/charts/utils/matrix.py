@@ -74,4 +74,4 @@ def processData(data: List[str]):
     matrix.drop(to_drop, axis=0, inplace=True)
     matrix.drop(to_drop, axis=1, inplace=True)
     headers = np.delete(headers, to_drop, axis=0)
-    return headers, matrix
+    return headers.tolist(), matrix.values.tolist()

@@ -23,7 +23,11 @@ $(document).ready(() => {
         switch (ext) {
             case "yaml":
                 filetree.hide()
-                loadAll(full_path);
+                loadAll('histogram', full_path);
+                break;
+            case "txt":
+                filetree.hide()
+                loadAll('correlation_matrix', full_path);
                 break;
             case "pdf":
                 filetree.hide();
@@ -46,15 +50,11 @@ $(document).ready(() => {
             $("#file-tree").show();
             $("#select").hide()
             $('#tree').jstree({
-                plugins: ["types", "sort", "search"],
-                core: {
+                plugins: ["types", "sort", "search"], core: {
                     data: response.children
-                },
-                search: {
-                    show_only_matches: true,
-                    case_insensitive: true,
-                },
-                sort: function (a, b) {
+                }, search: {
+                    show_only_matches: true, case_insensitive: true,
+                }, sort: function (a, b) {
                     a1 = this.get_node(a);
                     b1 = this.get_node(b);
                     if (a1.icon === b1.icon) {
@@ -62,12 +62,10 @@ $(document).ready(() => {
                     } else {
                         return (a1.icon === 'folder') ? 1 : -1
                     }
-                },
-                types: {
+                }, types: {
                     file: {
                         icon: "fa fa-file text-warning"
-                    },
-                    folder: {
+                    }, folder: {
                         icon: "fa fa-folder"
                     }
                 },
