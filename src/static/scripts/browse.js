@@ -12,6 +12,11 @@ function loadPdf(project_name, filepath) {
     $("#graph").show()
 }
 
+function resetSearch() {
+    $("#tree").jstree('clear_search');
+    $("#reset_btn").hide();
+}
+
 $(document).ready(() => {
     $('#tree').on("select_node.jstree", function (e, data) {
         const path = data.node.id;
@@ -36,8 +41,14 @@ $(document).ready(() => {
     });
     $("#search_btn").click(function () {
         const search = $("#search").val();
-        if (!search.trim()) return;
+        if (!search.trim()) {
+            resetSearch();
+        }
+        $("#reset_btn").show()
         $("#tree").jstree("search", search.trim());
+    })
+    $("#reset_btn").click(function () {
+        resetSearch();
     })
     $.get("/api/browse", response => {
         for (let i = 0; i < response.result.length; i++) {
@@ -75,6 +86,7 @@ $(document).ready(() => {
     });
     $("#back").click(() => {
         $("#graph").hide()
+        $("#hist").html(null)
         $("#file-tree").show()
     })
 })

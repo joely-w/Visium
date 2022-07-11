@@ -29,6 +29,10 @@ body {
   max-width: 1280px;
 }
 
+#reset_btn {
+  display: none;
+}
+
 .fa-folder {
   color: cornflowerblue !important;
 }

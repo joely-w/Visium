@@ -14,6 +14,7 @@ function loadAll(type, filepath) {
         },
         error: (message) => {
             $("#hist").html(message.responseText)
+            $("#graph").show()
         }
     })
 }
