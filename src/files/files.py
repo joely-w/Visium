@@ -31,7 +31,6 @@ class File:
         :param str filepath: Path to file. If relative=True (default) then path should be relative to project root,
         otherwise path should be absolute. Data is loaded into self.data property.
         :param bool relative: Defaults to True, sets whether filepath should be treated as relative or absolute.
-        TODO add method to parse .txt into self.data
         :return:
         """
         if relative:
@@ -39,7 +38,7 @@ class File:
 
         with open(filepath, "r") as stream:
             try:
-                self.data = stream
+                self.data = stream.readlines()
                 return True
             except FileNotFoundError:
                 return False

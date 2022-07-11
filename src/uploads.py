@@ -9,6 +9,19 @@ from werkzeug.utils import secure_filename
 from utilities import Node, dfs
 
 
+def traverse(filepath: str) -> Node:
+    """
+    Convert all filepaths within zip contained in `filepath` into a tree structure for frontend.
+    :return Node: Root node for tree structure.
+    """
+    root = Node('root', [], [])
+    with zipfile.ZipFile(filepath, 'r') as zf:
+        files = zf.namelist()
+        for file in files:
+            dfs(root, deque(file.split('/')))
+    return root
+
+
 class Files:
     def __init__(self, path):
         self.path = path
@@ -41,17 +54,5 @@ class Files:
 
     def access(self, folder_name):
         filepath = os.path.join(self.path, secure_filename(folder_name + '.zip'))
-        res = self.traverse(filepath)
+        res = traverse(filepath)
         return res.toJson()
-
-    def traverse(self, filepath: str) -> Node:
-        """
-        Convert all filepaths within zip contained in `filepath` into a tree structure for frontend.
-        :return Node: Root node for tree structure.
-        """
-        root = Node('root', [], [])
-        with zipfile.ZipFile(filepath, 'r') as zf:
-            files = zf.namelist()
-            for file in files:
-                dfs(root, deque(file.split('/')))
-        return root

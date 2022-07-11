@@ -1,6 +1,6 @@
 from plotly.subplots import make_subplots
-from .utils import histogram as util
-from .chart import Chart
+from src.charts.utils import histogram as util
+from src.charts.chart import Chart
 
 import plotly.graph_objects as go
 
