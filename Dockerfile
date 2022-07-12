@@ -7,10 +7,9 @@ ENV FLASK_PORT=8081
 # Create installation source
 RUN mkdir -p /deploy/src
 WORKDIR /deploy/
-COPY src/requirements.txt ./src
-
+COPY src/requirements.txt ./
 # Install dependencies
-RUN pip install -r ./src/requirements.txt
+RUN pip install -r ./requirements.txt
 
 # Copy local src directory to working directory
 COPY src ./src
