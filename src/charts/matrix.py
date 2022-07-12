@@ -1,5 +1,7 @@
-from src.charts.chart import Chart
-from src.charts.utils import matrix as util
+import sys
+sys.path.append("..") # Adds higher directory to python modules path.
+from charts.chart import Chart
+from charts.utils import matrix as util
 
 import plotly.graph_objects as go
 

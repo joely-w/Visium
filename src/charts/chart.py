@@ -1,4 +1,7 @@
-from src.files import files
+import sys
+
+sys.path.append("..")  # Adds higher directory to python modules path.
+from files import files
 
 
 class Chart(files.File):

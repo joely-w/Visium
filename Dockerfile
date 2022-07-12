@@ -15,8 +15,8 @@ RUN pip install -r ./requirements.txt
 COPY src ./src
 
 # Set Python path
-ENV PYTHONPATH "${PYTHONPATH}:/deploy/src"
-RUN echo "$PYTHONPATH"
+ENV PYTHONPATH "${PYTHONPATH}/deploy/src"
+
 EXPOSE 8080
 ENV UPLOAD_DIR=/mnt
-CMD gunicorn --workers 2 --bin 0.0.0.0:8080 app:app --log-level debug --timeout 600 --pythonpath '/deploy/src'
+CMD gunicorn --workers 2 --bind 0.0.0.0:8080 app:app --log-level debug --timeout 600 --pythonpath '/deploy/src'
