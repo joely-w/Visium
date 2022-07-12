@@ -61,7 +61,7 @@ $(document).ready(() => {
             $("#file-tree").show();
             $("#select").hide()
             $('#tree').jstree({
-                plugins: ["types", "sort", "search", "checkbox"], core: {
+                plugins: ["types", "sort", "search"], core: {
                     data: response.children
                 }, search: {
                     show_only_matches: true, case_insensitive: true,

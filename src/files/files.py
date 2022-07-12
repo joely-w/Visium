@@ -1,9 +1,7 @@
 import yaml
 from os import path
-import sys
 
-sys.path.append("..")  # Adds higher directory to python modules path.
-import definitions
+from .. import definitions
 
 
 class File:

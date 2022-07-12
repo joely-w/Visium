@@ -1,10 +1,6 @@
-import sys
-
-sys.path.append("..")  # Adds higher directory to python modules path.
-
 from plotly.subplots import make_subplots
-from charts.utils import histogram as util
-from charts.chart import Chart
+from src.charts.utils import histogram as util
+from src.charts.chart import Chart
 
 import plotly.graph_objects as go
 
