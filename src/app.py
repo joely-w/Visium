@@ -1,10 +1,11 @@
 # Config and routing
 from flask import Flask, request, send_file
-from config import Config
-from charts import histogram, matrix
-# Services
 
-from uploads import Files
+from src.charts import histogram, matrix
+from src.config import Config
+from src.uploads import Files
+
+# Services
 
 # Setup
 app = Flask(__name__, static_url_path='/', static_folder='./static')
