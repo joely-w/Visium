@@ -1,5 +1,6 @@
-import yaml
 from os import path
+
+import yaml
 
 from .. import definitions
 
@@ -19,12 +20,13 @@ class File:
         if relative:
             filepath = path.join(definitions.ROOT_DIR, filepath)
 
-        with open(filepath, "r") as stream:
-            try:
+        try:
+            print(filepath)
+            with open(filepath, "r") as stream:
                 self.data = yaml.safe_load(stream)
                 return True
-            except yaml.YAMLError or FileNotFoundError:
-                return False
+        except FileNotFoundError or yaml.YAMLError:
+            return False
 
     def readTxt(self, filepath, relative=True):
         """
@@ -35,10 +37,10 @@ class File:
         """
         if relative:
             filepath = path.join(definitions.ROOT_DIR, filepath)
-
-        with open(filepath, "r") as stream:
-            try:
+        try:
+            print(filepath)
+            with open(filepath, "r") as stream:
                 self.data = stream.readlines()
                 return True
-            except FileNotFoundError:
-                return False
+        except FileNotFoundError:
+            return False
