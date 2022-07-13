@@ -35,7 +35,7 @@ class Files:
 
     def upload(self, file: FileStorage) -> dict:
         """
-        Uploads file to objects path.
+        Uploads file to config.UPLOAD_FOLDER+filename
         TODO handle re uploading files.
         TODO add validation for ZIP only along with failure information.
         :param FileStorage file: Target file to upload.

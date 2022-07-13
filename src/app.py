@@ -23,12 +23,12 @@ def root():
 
 @app.route('/api/histogram', methods=['POST'])
 def create_figure():
-    return histogram.HistogramChart('../uploads/' + request.json).generate()
+    return histogram.HistogramChart(app.config['UPLOAD_FOLDER'] + request.json).generate()
 
 
 @app.route('/api/correlation_matrix', methods=['POST'])
 def corr_matrix():
-    return matrix.MatrixChart('../uploads/' + request.json).generate()
+    return matrix.MatrixChart(app.config['UPLOAD_FOLDER'] + request.json).generate()
 
 
 @app.route('/upload', methods=['POST'])
