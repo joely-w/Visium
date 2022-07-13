@@ -16,6 +16,6 @@ RUN pip install -r ./src/requirements.txt
 ENV PYTHONPATH=/deploy
 
 EXPOSE 8080
-ENV UPLOAD_DIR=/mnt
+ENV UPLOAD_DIR=/mnt/
 
 CMD gunicorn --workers 2 --bin 0.0.0.0:8080 src.app:app --log-level debug --timeout 600
