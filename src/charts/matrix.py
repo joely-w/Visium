@@ -64,8 +64,3 @@ class MatrixChart(Chart):
             return matrix[row][column]
         except KeyError:
             return -999
-
-
-MatrixChart(r'D:\Visium\uploads\Experiment_1\Fits\tHbb_v34_v2.txt',
-            r'D:\Visium\uploads\Experiment_1\Fits\tHbb_v34_v2_StatAsimov_SPLUSB_CRSR_ttc_Norm_50_ttbNF_1_tHNF_1_tH_NORM.txt',
-            False)
