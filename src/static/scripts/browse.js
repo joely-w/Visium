@@ -1,16 +1,10 @@
-const cmp = function (a, b) {
-
-    if (a.data.folder === b.data.folder) {
-        return (a.data.id > b.data.id) ? 1 : -1;
-    } else {
-        return (a.data.folder > b.data.folder) ? 1 : -1;
-    }
-};
+const checked = {}
 
 function loadPdf(project_name, filepath) {
     $("#hist").html(`<embed src="/api/directory/${project_name}/pdf?filename=${filepath}" type="application/pdf" width="100%" height="100%" />`)
     $("#graph").show()
 }
+
 
 function resetSearch() {
     $("#tree").jstree('clear_search');
@@ -18,13 +12,15 @@ function resetSearch() {
 }
 
 $(document).ready(() => {
+    const filetree = $("#file-tree")
+
+
     $('#tree').on("select_node.jstree", function (e, data) {
         const path = data.node.id;
         const splits = path.split('.');
         const ext = splits[splits.length - 1];
         const project_name = $("#files").val()
         const full_path = project_name + '/' + path;
-        const filetree = $("#file-tree")
         switch (ext) {
             case "yaml":
                 filetree.hide()
@@ -60,14 +56,18 @@ $(document).ready(() => {
             response = JSON.parse(response)
             $("#file-tree").show();
             $("#select").hide()
-            $('#tree').jstree({
-                plugins: ["types", "sort", "search"], core: {
+            const tree = $('#tree').jstree({
+                plugins: ["types", "sort", "search", "checkbox"], core: {
                     data: response.children
                 }, search: {
                     show_only_matches: true, case_insensitive: true,
+                }, checkbox: {
+                    three_state: false, // to avoid that fact that checking a node also check others
+                    whole_node: false,  // to avoid checking the box just clicking the node
+                    tie_selection: false // for checking without selecting and selecting without checking
                 }, sort: function (a, b) {
-                    a1 = this.get_node(a);
-                    b1 = this.get_node(b);
+                    let a1 = this.get_node(a);
+                    let b1 = this.get_node(b);
                     if (a1.icon === b1.icon) {
                         return (a1.text > b1.text) ? 1 : -1;
                     } else {
@@ -81,12 +81,31 @@ $(document).ready(() => {
                     }
                 },
             });
-
+            tree.on("check_node.jstree uncheck_node.jstree", function (e, data) {
+                if (!data.node.state.checked) {
+                    delete checked[data.node.id];
+                } else {
+                    checked[data.node.id] = true
+                }
+                const len = Object.keys(checked).length
+                if (len === 2) {
+                    $("#compare_btn").show();
+                    // Show compare
+                } else {
+                    $("#compare_btn").hide();
+                    // Hide compare
+                }
+            })
         })
     });
     $("#back").click(() => {
         $("#graph").hide()
         $("#hist").html(null)
         $("#file-tree").show()
+    })
+    $("#compare_btn").click(() => {
+        filetree.hide()
+        console.log(...Object.keys(checked))
+        loadComparison($("#files").val(), ...Object.keys(checked))
     })
 })

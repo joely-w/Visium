@@ -21,7 +21,6 @@ class File:
             filepath = path.join(definitions.ROOT_DIR, filepath)
 
         try:
-            print(filepath, flush=True)
             with open(filepath, "r") as stream:
                 self.data = yaml.safe_load(stream)
                 return True
@@ -38,9 +37,11 @@ class File:
         if relative:
             filepath = path.join(definitions.ROOT_DIR, filepath)
         try:
-            print(filepath, flush=True)
             with open(filepath, "r") as stream:
-                self.data = stream.readlines()
+                if self.data is not None:
+                    self.data.append(stream.readlines())
+                else:
+                    self.data = [stream.readlines()]
                 return True
         except FileNotFoundError:
             return False
