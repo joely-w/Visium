@@ -12,6 +12,8 @@ body {
 }
 
 .search {
+  position: fixed;
+  left: 15px;
   text-align: center;
   margin-bottom: 10px;
 }
@@ -30,7 +32,7 @@ body {
 }
 
 #reset_btn, #compare_btn {
-    display: none;
+  display: none;
 }
 
 .fa-folder {

@@ -7,6 +7,7 @@ function loadPdf(project_name, filepath) {
 
 
 function resetSearch() {
+    $("#search").val(null)
     $("#tree").jstree('clear_search');
     $("#reset_btn").hide();
 }
