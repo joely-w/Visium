@@ -18,8 +18,10 @@ class MatrixChart(Chart):
         if filepath2:
             self.readTxt(filepath2, relative)
             self.headers2, self.matrix2 = self.getData(1)
+            headers, matrix = self.mergeMatrices()
+        else:
+            headers, matrix = self.headers1, self.matrix1.values.tolist()
 
-        headers, matrix = self.mergeMatrices()
         self.fig = go.Figure(data=go.Heatmap(
             z=matrix,
             x=headers,
