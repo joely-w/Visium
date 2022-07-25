@@ -33,7 +33,6 @@ def corr_matrix():
 
 @app.route('/api/comparison', methods=['POST'])
 def compare_matrices():
-    print(request.json['path1'], request.json['path2'])
     path1 = f"{app.config['UPLOAD_FOLDER']}{request.json['project']}/{request.json['path1']}"
     path2 = f"{app.config['UPLOAD_FOLDER']}{request.json['project']}/{request.json['path2']}"
     return matrix.MatrixChart(path1, path2).generate()

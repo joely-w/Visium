@@ -4,6 +4,20 @@ import numpy as np
 import pandas as pd
 
 
+def findElement(matrix: pd.DataFrame, column: str, row: str) -> float:
+    """
+    Find an element in a matrix.
+    :param pd.Dataframe matrix: Matrix to search
+    :param str column: Column of element
+    :param str row: Row of element
+    :returns float: If element exists in matrix, returns value. Otherwise, returns -999 (not found).
+    """
+    try:
+        return matrix[row][column]
+    except KeyError:
+        return -999
+
+
 def getParamNames(data: List[str]) -> Tuple[np.array, int]:
     """
     Parses all parameter names from correlation data.
@@ -16,7 +30,7 @@ def getParamNames(data: List[str]) -> Tuple[np.array, int]:
     while data[index] != "\n":
         paramNames.append(data[index].split(" ")[0])
         index += 1
-    return np.array(paramNames), index + 4
+    return paramNames, index + 4
 
 
 def getMatrix(data: List[str], pointer: int, headers: any) -> pd.DataFrame:
@@ -35,36 +49,42 @@ def getMatrix(data: List[str], pointer: int, headers: any) -> pd.DataFrame:
 
         matrix.append(np.around(100.0 * row, decimals=3))
         pointer += 1
-    df = pd.DataFrame(matrix, columns=headers, index=headers)
-    return df
+    return pd.DataFrame(matrix, columns=headers, index=headers)
 
 
-def columnCheck(column: List[any]) -> bool:
+def columnCheck(column: List[any], index: int) -> bool:
     """
     Check if column should be shown.
     :return bool: True = remove column, False = keep column.
     """
-    for element in column:
-        if not np.isnan(element) and abs(element) >= 20:
+    for count, element in enumerate(column):
+        if index == count:
+            continue
+        if abs(element) >= 20:
             return False
     return True
 
 
-def processData(data: List[str]):
+def dropMatrix(matrix: pd.DataFrame, headers: List[str]):
     """
-    Trim all non correlated features from matrix.
-    :param List[str] data: Data frame from correlation matrix text file.
-    :return List[str], List[List[str]]: List of headers, correlation matrix with string entries.
+    Drops row/columns of matrix that don't contain a PMCC > 30 .
     """
-    headers, pointer = getParamNames(data)
-    headers = np.array(headers)
-    matrix = getMatrix(data, pointer, headers)
-    upper = matrix.where(np.triu(np.ones(matrix.shape), k=1).astype(np.bool))
+
     to_drop = dict()
-    for i in range(len(upper.columns)):
-        if columnCheck(upper[upper.columns[i]]):
-            to_drop[upper.columns[i]] = i
+    for i in range(len(matrix.columns)):
+        if columnCheck(matrix[matrix.columns[i]], i):
+            to_drop[matrix.columns[i]] = i
     matrix.drop(list(to_drop.keys()), axis=0, inplace=True)
     matrix.drop(list(to_drop.keys()), axis=1, inplace=True)
     headers = np.delete(headers, list(to_drop.values()), axis=0)
     return headers.tolist(), matrix
+    pass
+
+
+def processData(data: List[str]) -> Tuple[List[str], pd.DataFrame]:
+    """
+    Obtain matrix and corresponding parameters from data.
+    TODO extract nuisance values from data.
+    """
+    headers, pointer = getParamNames(data)
+    return headers, getMatrix(data, pointer, headers)

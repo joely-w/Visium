@@ -1,8 +1,8 @@
-from typing import Union
+from typing import Tuple, List
 
 import numpy as np
-import pandas as pd
 import plotly.graph_objects as go
+from pandas import DataFrame
 
 from src.charts.chart import Chart
 from src.charts.utils import matrix as util
@@ -14,13 +14,20 @@ class MatrixChart(Chart):
 
         # Load and process data
         self.readTxt(filepath1, relative)
-        self.headers1, self.matrix1 = self.getData(0)
+
+        self.headers1, self.matrix1 = util.processData(self.data[0])
+
         if filepath2:
             self.readTxt(filepath2, relative)
-            self.headers2, self.matrix2 = self.getData(1)
+            self.headers2, self.matrix2 = util.processData(self.data[1])
             headers, matrix = self.mergeMatrices()
         else:
-            headers, matrix = self.headers1, self.matrix1.values.tolist()
+            headers, matrix = self.headers1, self.matrix1
+
+        headers, matrix = util.dropMatrix(matrix, headers)
+
+        # Make friendly
+        matrix = matrix.values.tolist()
 
         self.fig = go.Figure(data=go.Heatmap(
             z=matrix,
@@ -30,19 +37,11 @@ class MatrixChart(Chart):
             colorscale='RdBu_r'
         ))
 
-    def getData(self, data_index: int):
-        return util.processData(self.data[data_index])
-
-    def mergeMatrices(self):
+    def mergeMatrices(self) -> Tuple[List[str], DataFrame]:
         """
         Make matrices the same size by filling each matrix with empty column and row if it does not contain header.
         If matrices have identical columns in different positions then first occurring position chosen.
         """
-        if self.matrix2 is None:
-            return
-
-        # We now create a new matrix, and populate it with values from matrix1 and matrix2.
-
         # List of all unique parameters
         headers = list(set(self.matrix1.columns).union(set(self.matrix2.columns)))
         # Our target matrix
@@ -54,15 +53,12 @@ class MatrixChart(Chart):
                 if i == j:
                     matrix[j][i] = 100.0
                 elif i > j:
-                    value = self.findElement(self.matrix1, headers[i], headers[j])
+                    value = util.findElement(self.matrix1, headers[i], headers[j])
                     matrix[j][i] = value
                 else:
-                    value = self.findElement(self.matrix2, headers[i], headers[j])
+                    value = util.findElement(self.matrix2, headers[i], headers[j])
                     matrix[j][i] = value
-        return headers, matrix.tolist()
+        return headers, DataFrame(matrix, columns=headers, index=headers)
 
-    def findElement(self, matrix: pd.DataFrame, column: str, row: str) -> Union[float, str]:
-        try:
-            return matrix[row][column]
-        except KeyError:
-            return -999
+    def nuisanceParams(self):
+        pass
