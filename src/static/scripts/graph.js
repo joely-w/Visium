@@ -1,15 +1,22 @@
+let data;
+let original_data;
+
 /**
  * Load all graphs onto chart
  */
 function loadAll(type, filepath) {
+    const container = $("#hist");
     $.ajax({
         url: `/api/${type}`,
         type: "POST",
         data: JSON.stringify(filepath),
         contentType: 'application/json; charset=utf-8',
-        success: (response) => {
-            $("#hist").html(null)
-            Plotly.newPlot($("#hist")[0], response)
+        success: async (response) => {
+            container.html(null)
+            data = response;
+            // Deep copy data
+            original_data = JSON.parse(JSON.stringify(response))
+            Plotly.newPlot(container[0], data)
             $("#graph").show()
         },
         error: (message) => {

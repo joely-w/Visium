@@ -14,21 +14,32 @@ body {
 .search {
   position: fixed;
   left: 15px;
-  text-align: center;
-  margin-bottom: 10px;
+    text-align: center;
+    margin-bottom: 10px;
 }
+
 .search button {
-  margin-top: 10px;
+    margin-top: 10px;
 }
 
 #graph, #file-tree {
-  min-height: 60vh;
-  display: none;
+    min-height: 60vh;
+    display: none;
+    width: 50vw;
+    margin: 0 auto;
+}
+
+#graph #tree, #file-tree #tree {
+    width: 100%;
+    margin: 0 auto;
 }
 
 #hist {
-  height: 800px;
-  max-width: 1280px;
+    height: 800px;
+    width: 100vw;
+    position: absolute;
+    left: 0;
+    top: 125px;
 }
 
 #reset_btn, #compare_btn {

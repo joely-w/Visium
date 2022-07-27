@@ -1,4 +1,4 @@
-from typing import List, Tuple
+from typing import List, Tuple, Dict
 
 import numpy as np
 import pandas as pd
@@ -24,13 +24,17 @@ def getParamNames(data: List[str]) -> Tuple[np.array, int]:
     :param List[str] data: Data frame from correlation matrix text file.
     :return List[str], int: List of parameter names, correlation matrix pointer.
     """
-    paramNames = []
+    generated = {"paramNames": [], "nuisance": [], "error_up": [], "error_down": []}
     index = 1
     # End of params ends with \n
     while data[index] != "\n":
-        paramNames.append(data[index].split(" ")[0])
+        row = data[index].split(" ")
+        generated['paramNames'].append(row[0])
+        generated['nuisance'].append(float(row[2]))
+        generated['error_up'].append(float(row[3]))
+        generated['error_down'].append(-1 * float(row[4][:-2]))
         index += 1
-    return paramNames, index + 4
+    return generated, index + 4
 
 
 def getMatrix(data: List[str], pointer: int, headers: any) -> pd.DataFrame:
@@ -81,10 +85,10 @@ def dropMatrix(matrix: pd.DataFrame, headers: List[str]):
     pass
 
 
-def processData(data: List[str]) -> Tuple[List[str], pd.DataFrame]:
+def processData(data: List[str]) -> Tuple[Dict, pd.DataFrame]:
     """
     Obtain matrix and corresponding parameters from data.
     TODO extract nuisance values from data.
     """
     headers, pointer = getParamNames(data)
-    return headers, getMatrix(data, pointer, headers)
+    return headers, getMatrix(data, pointer, headers['paramNames'])

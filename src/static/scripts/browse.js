@@ -22,17 +22,16 @@ $(document).ready(() => {
         const ext = splits[splits.length - 1];
         const project_name = $("#files").val()
         const full_path = project_name + '/' + path;
+        filetree.hide();
+
         switch (ext) {
             case "yaml":
-                filetree.hide()
                 loadAll('histogram', full_path);
                 break;
             case "txt":
-                filetree.hide()
                 loadAll('correlation_matrix', full_path);
                 break;
             case "pdf":
-                filetree.hide();
                 loadPdf(project_name, path)
         }
     });
@@ -106,7 +105,31 @@ $(document).ready(() => {
     })
     $("#compare_btn").click(() => {
         filetree.hide()
-        console.log(...Object.keys(checked))
         loadComparison($("#files").val(), ...Object.keys(checked))
     })
 })
+
+function resetHeaders() {
+    data = JSON.parse(JSON.stringify(original_data))
+    console.log(data, original_data)
+    Plotly.newPlot($("#hist")[0], data)
+
+}
+
+function displayHeaders() {
+    const search = $("#nuis").val().trim()
+    let [error, error_minus, vals, index] = [[], [], [], []]
+    for (let i = 0; i < original_data.data[0].x.length; i++) {
+        if (original_data.data[0].y[i].includes(search)) {
+            vals.push(original_data.data[0].y[i])
+            index.push(i)
+            error.push(original_data.data[0]['error_x'].array[i])
+            error_minus.push(original_data.data[0]['error_x'].arrayminus[i])
+        }
+    }
+    data.data[0].x = index;
+    data.data[0].y = vals;
+    data.data[0]['error_x'].array = error;
+    data.data[0]['error_x'].arrayminus = error_minus;
+    Plotly.redraw($("#hist")[0])
+}

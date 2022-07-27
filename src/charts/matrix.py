@@ -3,6 +3,7 @@ from typing import Tuple, List
 import numpy as np
 import plotly.graph_objects as go
 from pandas import DataFrame
+from plotly.subplots import make_subplots
 
 from src.charts.chart import Chart
 from src.charts.utils import matrix as util
@@ -11,7 +12,7 @@ from src.charts.utils import matrix as util
 class MatrixChart(Chart):
     def __init__(self, filepath1: str, filepath2: str = None, relative=True):
         super().__init__()
-
+        self.fig = make_subplots(rows=1, cols=2, horizontal_spacing=0.2, column_widths=[0.7, 0.3])
         # Load and process data
         self.readTxt(filepath1, relative)
 
@@ -20,22 +21,22 @@ class MatrixChart(Chart):
         if filepath2:
             self.readTxt(filepath2, relative)
             self.headers2, self.matrix2 = util.processData(self.data[1])
-            headers, matrix = self.mergeMatrices()
+            titles, matrix = self.mergeMatrices()
         else:
-            headers, matrix = self.headers1, self.matrix1
-
-        headers, matrix = util.dropMatrix(matrix, headers)
-
+            titles, matrix = self.headers1['paramNames'], self.matrix1
+        titles, matrix = util.dropMatrix(matrix, titles)
         # Make friendly
         matrix = matrix.values.tolist()
-
-        self.fig = go.Figure(data=go.Heatmap(
+        self.nuisanceParams()
+        self.fig.update_layout(legend_orientation="h", yaxis=dict(
+            tickfont=dict(size=10)))
+        self.fig.add_trace(go.Heatmap(
             z=matrix,
-            x=headers,
-            y=headers,
+            x=titles,
+            y=titles,
             hoverongaps=False, zmin=-100, zmax=100, text=matrix, texttemplate="%{text}",
             colorscale='RdBu_r'
-        ))
+        ), row=1, col=1)
 
     def mergeMatrices(self) -> Tuple[List[str], DataFrame]:
         """
@@ -61,4 +62,11 @@ class MatrixChart(Chart):
         return headers, DataFrame(matrix, columns=headers, index=headers)
 
     def nuisanceParams(self):
+        # Now to generate the scatter plot
+        self.fig.add_trace(
+            go.Scatter(name='ratio', y=self.headers1['paramNames'],
+                       x=self.headers1['nuisance'],
+                       showlegend=False, mode='markers', error_x=dict(symmetric=False, array=self.headers1['error_up'],
+                                                                      arrayminus=self.headers1['error_down'])),
+            row=1, col=2)
         pass

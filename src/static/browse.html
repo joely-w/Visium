@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link href="stylesheets/main.css" rel="stylesheet"/>
+    <link href="/stylesheets/main.css" rel="stylesheet"/>
     <meta charset="UTF-8">
     <title>Visium - Browse</title>
 
@@ -23,10 +23,10 @@
     <script src="https://use.fontawesome.com/cd5e3e10b7.js"></script>
 
     <!-- Plotly Graph -->
-    <script src="scripts/graph.js"></script>
+    <script src="/scripts/graph.js"></script>
 
     <!-- File tree -->
-    <script src="scripts/browse.js"></script>
+    <script src="/scripts/browse.js"></script>
 
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
@@ -40,7 +40,7 @@
 
 </head>
 <body>
-<div class="container">
+<div class="container-fluid">
     <div class="row" id="select">
         <div class="col-md-4 offset-md-4">
             <label for="files" class="form-label">Select a project</label>
@@ -67,10 +67,18 @@
     </div>
     <div class="row">
 
-        <div id="graph" class="col-md-12">
+        <div id="graph">
             <button class="btn btn-danger" id="back">Go back</button>
             <br>
-            <span id="info"></span>
+
+            <label>Filter nuisance parameters: <input id="nuis" placeholder="Raw text or Regex"
+                                                      type="text"/></label><br>
+            <button class="btn btn-primary" onclick="displayHeaders()">Search parameters</button>
+            <button class="btn btn-danger" onclick="resetHeaders()">Reset parameters</button>
+            <br>
+            <div id="info">
+
+            </div>
             <div id="hist"></div>
         </div>
     </div>
