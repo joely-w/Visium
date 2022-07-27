@@ -110,19 +110,20 @@ $(document).ready(() => {
 })
 
 function resetHeaders() {
+    $("#nuis").val(null)
     data = JSON.parse(JSON.stringify(original_data))
-    console.log(data, original_data)
     Plotly.newPlot($("#hist")[0], data)
 
 }
 
 function displayHeaders() {
     const search = $("#nuis").val().trim()
+    const regex = new RegExp(search)
     let [error, error_minus, vals, index] = [[], [], [], []]
     for (let i = 0; i < original_data.data[0].x.length; i++) {
-        if (original_data.data[0].y[i].includes(search)) {
+        if (original_data.data[0].y[i].includes(search) || original_data.data[0].y[i].match(regex)) {
             vals.push(original_data.data[0].y[i])
-            index.push(i)
+            index.push(original_data.data[0].x[i])
             error.push(original_data.data[0]['error_x'].array[i])
             error_minus.push(original_data.data[0]['error_x'].arrayminus[i])
         }

@@ -12,7 +12,7 @@ from src.charts.utils import matrix as util
 class MatrixChart(Chart):
     def __init__(self, filepath1: str, filepath2: str = None, relative=True):
         super().__init__()
-        self.fig = make_subplots(rows=1, cols=2, horizontal_spacing=0.2, column_widths=[0.7, 0.3])
+        self.fig = make_subplots(rows=1, cols=2, horizontal_spacing=0.25, column_widths=[0.7, 0.3])
         # Load and process data
         self.readTxt(filepath1, relative)
 
@@ -28,8 +28,8 @@ class MatrixChart(Chart):
         # Make friendly
         matrix = matrix.values.tolist()
         self.nuisanceParams()
-        self.fig.update_layout(legend_orientation="h", yaxis=dict(
-            tickfont=dict(size=10)))
+        self.fig.update_traces(colorbar_orientation='h', selector=dict(type='heatmap'))
+        self.fig.update_layout(coloraxis_colorbar_x=-0.15)
         self.fig.add_trace(go.Heatmap(
             z=matrix,
             x=titles,
