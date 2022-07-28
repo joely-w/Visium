@@ -35,6 +35,9 @@ function loadComparison(project, path1, path2) {
         success: (response) => {
             $("#hist").html(null)
             $("#info").html(`Top left:${path1}<br> Bottom right: ${path2}<br>`)
+            data = response;
+            // Deep copy data
+            original_data = JSON.parse(JSON.stringify(response))
             Plotly.newPlot($("#hist")[0], response)
             $("#graph").show()
         },

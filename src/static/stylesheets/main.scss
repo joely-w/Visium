@@ -27,7 +27,7 @@ body {
 }
 
 #graph, #file-tree {
-  min-height: 60vh;
+  min-height: 80vh;
   display: none;
   width: 50vw;
   margin: 0 auto;
@@ -39,11 +39,11 @@ body {
 }
 
 #hist {
-  height: 800px;
+  height: 1024px;
   width: 100vw;
   position: absolute;
   left: 0;
-  top: 125px;
+  top: 170px;
 }
 
 #reset_btn, #compare_btn {

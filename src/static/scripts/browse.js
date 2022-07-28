@@ -120,6 +120,7 @@ function displayHeaders() {
     const search = $("#nuis").val().trim()
     const regex = new RegExp(search)
     let [error, error_minus, vals, index] = [[], [], [], []]
+    let [err, err_min, vals_1, index_1] = [[], [], [], []]
     for (let i = 0; i < original_data.data[0].x.length; i++) {
         if (original_data.data[0].y[i].includes(search) || original_data.data[0].y[i].match(regex)) {
             vals.push(original_data.data[0].y[i])
@@ -128,9 +129,21 @@ function displayHeaders() {
             error_minus.push(original_data.data[0]['error_x'].arrayminus[i])
         }
     }
+    for (let i = 0; i < original_data.data[1].x.length; i++) {
+        if (original_data.data[1].y[i].includes(search) || original_data.data[1].y[i].match(regex)) {
+            vals_1.push(original_data.data[1].y[i])
+            index_1.push(original_data.data[1].x[i])
+            err.push(original_data.data[1]['error_x'].array[i])
+            err_min.push(original_data.data[1]['error_x'].arrayminus[i])
+        }
+    }
     data.data[0].x = index;
     data.data[0].y = vals;
     data.data[0]['error_x'].array = error;
     data.data[0]['error_x'].arrayminus = error_minus;
+    data.data[1].x = index_1;
+    data.data[1].y = vals_1;
+    data.data[1]['error_x'].array = err;
+    data.data[1]['error_x'].arrayminus = err_min;
     Plotly.redraw($("#hist")[0])
 }

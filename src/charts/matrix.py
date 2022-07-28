@@ -12,7 +12,8 @@ from src.charts.utils import matrix as util
 class MatrixChart(Chart):
     def __init__(self, filepath1: str, filepath2: str = None, relative=True):
         super().__init__()
-        self.fig = make_subplots(rows=1, cols=2, horizontal_spacing=0.25, column_widths=[0.7, 0.3])
+        self.fig = make_subplots(rows=2, cols=2, specs=[[{"type": "heatmap", "colspan": 2}, None],
+                                                        [{"type": "scatter"}, {"type": "scatter"}]])
         # Load and process data
         self.readTxt(filepath1, relative)
 
@@ -24,6 +25,7 @@ class MatrixChart(Chart):
             titles, matrix = self.mergeMatrices()
         else:
             titles, matrix = self.headers1['paramNames'], self.matrix1
+            self.headers2, self.matrix2 = None, None
         titles, matrix = util.dropMatrix(matrix, titles)
         # Make friendly
         matrix = matrix.values.tolist()
@@ -68,5 +70,13 @@ class MatrixChart(Chart):
                        x=self.headers1['nuisance'],
                        showlegend=False, mode='markers', error_x=dict(symmetric=False, array=self.headers1['error_up'],
                                                                       arrayminus=self.headers1['error_down'])),
-            row=1, col=2)
+            row=2, col=1)
+        if self.headers2:
+            self.fig.add_trace(
+                go.Scatter(name='ratio', y=self.headers1['paramNames'],
+                           x=self.headers1['nuisance'],
+                           showlegend=False, mode='markers',
+                           error_x=dict(symmetric=False, array=self.headers2['error_up'],
+                                        arrayminus=self.headers2['error_down'])),
+                row=2, col=2)
         pass
